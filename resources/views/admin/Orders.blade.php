@@ -1,10 +1,10 @@
 <x-admin-layout>
-    
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard Admin') }}
         </h2>
     </x-slot>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -15,7 +15,7 @@
         </div>
     </div>
     {{--    menu menus --}}
-    <div class="py-12">
+    {{-- <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 text-gray-900">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     {{-- <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 text-gray-900">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -93,4 +93,60 @@
             </div>
         </div>
     </div> --}}
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 text-gray-900">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold mb-2">Daftar Pesanan</h2>
+                    <table class="w-full border-collapse border border-gray-400">
+                        <thead>
+                            <tr>
+                                <th class="border border-gray-400 px-4 py-2">Nama Pelanggan</th>
+                                <th class="border border-gray-400 px-4 py-2">Menu Pesanan</th>
+                                <th class="border border-gray-400 px-4 py-2">Jumlah Pesanan</th>
+                                <th class="border border-gray-400 px-4 py-2">Total Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orders as $order)
+                                <tr>
+                                    <td class="border border-gray-400 px-4 py-2">{{ $order->user->name }}</td>
+                                    {{-- <td class="border border-gray-400 px-4 py-2">{{ $order->pesanan_}}</td> --}}
+                                    <td class="border border-gray-400 px-4 py-2">
+                                        @php
+                                        // Loop through the menu items and quantities for this order
+                                        $menuItems = [];
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            $menuItemName = $order->{"pesanan_" . $i};
+                                            $menuItemQuantity = $order->{"quantity_" . $i};
+                                            if ($menuItemName && $menuItemQuantity) {
+                                                $menuItems[] = $menuItemName . ' (' . $menuItemQuantity . ')';
+                                            }
+                                        }
+                                        echo implode(', ', $menuItems);
+                                        @endphp
+                                    </td>
+                                    <td class="border border-gray-400 px-4 py-2">
+                                        @php
+                                        // Display the total quantity for this order
+                                        $totalQuantity = 0;
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            $menuItemQuantity = $order->{"quantity_" . $i};
+                                            if ($menuItemQuantity) {
+                                                $totalQuantity += $menuItemQuantity;
+                                            }
+                                        }
+                                        echo $totalQuantity;
+                                        @endphp
+                                    </td>
+                                    {{-- <td class="border border-gray-400 px-4 py-2">{{ $order->quantity_ }}</td> --}}
+                                    <td class="border border-gray-400 px-4 py-2">Rp {{ $order->total }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </x-admin-layout>

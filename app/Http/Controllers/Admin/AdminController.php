@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Menu;
+use App\Models\Order;
+use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
     public function index()
     {
         $menus = Menu::with('category')->get();
-        $users = DB::table('users')->get();
-        $transactions = Transaction::with(['menus', 'users'])->get();
+        // $users = DB::table('users')->get();
+        // $orders = Order::with(['user', 'menu'])->orderBy('created_at', 'desc')->get();
         
 //        dd($menus);
-        return view('admin.index', compact('menus', 'users', 'transactions'));
+        return view('admin.index', compact('menus'));
     }
 
     public function create()
@@ -134,7 +135,7 @@ class AdminController extends Controller
         $menu->delete();
         return redirect()->route('admin.index')->with(['success' => 'Data Berhasil Dihapus!']);
     }
-
+    
     public function viewAllMenus()
     {
         $menus = Menu::with('category')->get();
